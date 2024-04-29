@@ -5,7 +5,7 @@ CREATE PROCEDURE CancelBooking (
 )
 BEGIN
     
-    DELETE FROM Bookings
+    DELETE FROM LittleLemonDB.Bookings
     WHERE BookingID = booking_id;
     
     SELECT 'Booking canceled successfully.' AS Message;

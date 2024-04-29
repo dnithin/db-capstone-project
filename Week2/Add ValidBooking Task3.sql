@@ -11,8 +11,8 @@ BEGIN
 
     
     SELECT COUNT(*) INTO table_exists
-    FROM Bookings
-    WHERE Booking_date = booking_date AND TableNumber = table_number;
+    FROM `LittleLemonDB`.Bookings
+    WHERE BookingDate = booking_date AND TableNumber = table_number;
 
     IF table_exists > 0 THEN
         ROLLBACK;
