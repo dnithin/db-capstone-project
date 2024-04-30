@@ -1,1 +1,1 @@
-SELECT Name from Menu where MenuID= any (select Menu_MenuID from Orders where Quantity>2) 
+SELECT Name from `LittleLemonDB`.Menu where `LittleLemonDB`.Menu.MenuID= any (select `LittleLemonDB`.Orders.Menu_MenuID from `LittleLemonDB`.Orders where `LittleLemonDB`.Orders.Quantity>2) 

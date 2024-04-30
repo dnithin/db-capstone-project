@@ -22,7 +22,6 @@ CREATE SCHEMA IF NOT EXISTS `LittleLemonDB` DEFAULT CHARACTER SET utf8 ;
 -- -----------------------------------------------------
 -- Schema littlelemondb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `littlelemondb` ;
 USE `LittleLemonDB` ;
 
 -- -----------------------------------------------------
@@ -47,12 +46,12 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Bookings` (
   `TableNumber` INT NOT NULL,
   `Customer_ID` INT NOT NULL,
   PRIMARY KEY (`BookingID`),
-  INDEX `Customer_ID_idx` (`Customer_ID` ASC) VISIBLE,
+  INDEX `Customer_ID_idx` (`Customer_ID` ASC),
   CONSTRAINT `Customer_ID`
     FOREIGN KEY (`Customer_ID`)
     REFERENCES `LittleLemonDB`.`Customer` (`CustomerID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -112,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Orders` (
   `Staff_StaffID` INT NOT NULL,
   `Cust_CustomerID` INT NOT NULL,
   PRIMARY KEY (`OrderID`),
-  INDEX `MenuID_idx` (`Menu_MenuID` ASC) VISIBLE,
+  INDEX `MenuID_idx` (`Menu_MenuID` ASC) visible,
   INDEX `BookingID_idx` (`Book_Booking_ID` ASC) VISIBLE,
   INDEX `OrderDeliveryID_idx` (`OrderDel_OrderdelID` ASC) VISIBLE,
   INDEX `StaffID_idx` (`Staff_StaffID` ASC) VISIBLE,
@@ -145,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Orders` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-USE `littlelemondb` ;
+
 USE `LittleLemonDB` ;
 
 -- -----------------------------------------------------
@@ -184,7 +183,7 @@ SELECT MAX(orders.Quantity) as 'Max Quantity in Order'
 FROM orders$$
 
 DELIMITER ;
-USE `littlelemondb` ;
+USE `LittleLemonDB`;
 
 -- -----------------------------------------------------
 -- Placeholder table for view `littlelemondb`.`ordersview`

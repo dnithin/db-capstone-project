@@ -1,4 +1,4 @@
 CREATE VIEW OrdersView AS
-SELECT Orders.OrderID, orders.Quantity, orders.TotalCost
-FROM Orders
-WHERE Orders.Quantity > 2
+SELECT `LittleLemonDB`.`Orders`.OrderID, `LittleLemonDB`.`Orders`.Quantity, `LittleLemonDB`.`Orders`.TotalCost
+FROM `LitteLemonDB`.Orders
+WHERE `LitteLemonDB`.Orders.Quantity > 2
