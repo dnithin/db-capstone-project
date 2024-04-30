@@ -43,7 +43,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Bookings` (
   `BookingID` INT NOT NULL AUTO_INCREMENT,
-  `Booking_date` DATETIME NOT NULL,
+  `BookingDate` DATETIME NOT NULL,
   `TableNumber` INT NOT NULL,
   `Customer_ID` INT NOT NULL,
   PRIMARY KEY (`BookingID`),
@@ -110,11 +110,13 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Orders` (
   `Menu_MenuID` INT NOT NULL,
   `OrderDel_OrderdelID` INT NOT NULL,
   `Staff_StaffID` INT NOT NULL,
+  `Cust_CustomerID` INT NOT NULL,
   PRIMARY KEY (`OrderID`),
   INDEX `MenuID_idx` (`Menu_MenuID` ASC) VISIBLE,
   INDEX `BookingID_idx` (`Book_Booking_ID` ASC) VISIBLE,
   INDEX `OrderDeliveryID_idx` (`OrderDel_OrderdelID` ASC) VISIBLE,
   INDEX `StaffID_idx` (`Staff_StaffID` ASC) VISIBLE,
+  INDEX `CustomerID_idx` (`Cust_CustomerID` ASC) VISIBLE,
   CONSTRAINT `BookingID`
     FOREIGN KEY (`Book_Booking_ID`)
     REFERENCES `LittleLemonDB`.`Bookings` (`BookingID`)
@@ -133,6 +135,11 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Orders` (
   CONSTRAINT `StaffID`
     FOREIGN KEY (`Staff_StaffID`)
     REFERENCES `LittleLemonDB`.`Staff` (`Staff_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `CustomerID`
+    FOREIGN KEY (`Cust_CustomerID`)
+    REFERENCES `LittleLemonDB`.`Customer` (`CustomerID`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -182,26 +189,26 @@ USE `littlelemondb` ;
 -- -----------------------------------------------------
 -- Placeholder table for view `littlelemondb`.`ordersview`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `littlelemondb`.`ordersview` (`OrderID` INT, `Quantity` INT, `TotalCost` INT);
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`ordersview` (`OrderID` INT, `Quantity` INT, `TotalCost` INT);
 
 -- -----------------------------------------------------
 -- Placeholder table for view `littlelemondb`.`ordersview2`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `littlelemondb`.`ordersview2` (`CustomerID` INT, `FullName` INT, `OrderID` INT, `TotalCost` INT);
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`ordersview2` (`CustomerID` INT, `FullName` INT, `OrderID` INT, `TotalCost` INT);
 
 -- -----------------------------------------------------
 -- View `littlelemondb`.`ordersview`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `littlelemondb`.`ordersview`;
-USE `littlelemondb`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `littlelemondb`.`ordersview` AS select `littlelemondb`.`orders`.`OrderID` AS `OrderID`,`littlelemondb`.`orders`.`Quantity` AS `Quantity`,`littlelemondb`.`orders`.`TotalCost` AS `TotalCost` from `littlelemondb`.`orders` where (`littlelemondb`.`orders`.`Quantity` > 2);
+DROP TABLE IF EXISTS `LittleLemonDB`.`ordersview`;
+USE `LittleLemonDB`;
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `LittleLemonDB`.`ordersview` AS select `LitteLemonDB`.`orders`.`OrderID` AS `OrderID`,`LitteLemonDB`.`orders`.`Quantity` AS `Quantity`,`LitteLemonDB`.`orders`.`TotalCost` AS `TotalCost` from `LitteLemonDB`.`orders` where (`LitteLemonDB`.`orders`.`Quantity` > 2);
 
 -- -----------------------------------------------------
 -- View `littlelemondb`.`ordersview2`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `littlelemondb`.`ordersview2`;
-USE `littlelemondb`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `littlelemondb`.`ordersview2` AS select `littlelemondb`.`customer`.`CustomerID` AS `CustomerID`,`littlelemondb`.`customer`.`FullName` AS `FullName`,`littlelemondb`.`orders`.`OrderID` AS `OrderID`,`littlelemondb`.`orders`.`TotalCost` AS `TotalCost` from (`littlelemondb`.`customer` join `littlelemondb`.`orders`) where (`littlelemondb`.`orders`.`TotalCost` > 150) order by `littlelemondb`.`orders`.`TotalCost` desc;
+DROP TABLE IF EXISTS `LitteLemonDB`.`ordersview2`;
+USE `LitteLemonDB`;
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `LitteLemonDB`.`ordersview2` AS select `LitteLemonDB`.`customer`.`CustomerID` AS `CustomerID`,`LitteLemonDB`.`customer`.`FullName` AS `FullName`,`LitteLemonDB`.`orders`.`OrderID` AS `OrderID`,`LitteLemonDB`.`orders`.`TotalCost` AS `TotalCost` from (`LitteLemonDB`.`customer` join `LitteLemonDB`.`orders`) where (`LitteLemonDB`.`orders`.`TotalCost` > 150) order by `LitteLemonDB`.`orders`.`TotalCost` desc;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
